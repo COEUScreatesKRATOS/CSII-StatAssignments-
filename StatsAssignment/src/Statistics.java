@@ -1,54 +1,106 @@
+import java.util.Scanner;
+
+/**
+ * 
+ */
 
 /**
  * @author ChrisHardingBrown
  * 
  */
-import java.util.*;
 
 public class Statistics {
-    private int mean;
-    // averarge
-    private int mode;
-    // number repeated the most
-    private int median;
-    private final int length;
-    private int interger;
-    // number in the middle or 2 middle numbers avg
-    int [] userNumData = new int[length] ;
-    int smaller;
-    // n(n+1)/(2) = median
-    // [(x to the n) + (x to the (n+1)] /(x to the n) = 
-    
-    Scanner input = new Scanner(system.in);
-   
-    input.nextline();
-    numberCounter
-    
-    public Statistics(final int userData){
-        length = userData;
-        for(int i = 0 ; i< statistics.length; i++){
-            system.out.println("Enter your data: ");
-            interger= input.nextInt();
-            input.nextLine();
+
+    /**
+     * @param args
+     */
+
+    private final int[] userNumData;
+    private final int arrayLength;
+
+    public Statistics() {
+        System.out.println("Please enter your numbers (separtated by spaces) and then press enter:");
+        // ask user for number using scanner
+        // parse and populate
+        // sort array
+        final Scanner input = new Scanner(System.in);
+
+        final String strNums = input.nextLine();
+
+        final String[] userToken = strNums.trim().split(" ");
+
+        userNumData = new int[userToken.length];
+
+        arrayLength = userNumData.length;
+
+        for (int i = 0; i < userToken.length; i++) {
+
+            final int num = Integer.parseInt(userToken[i]);
+            userNumData[i] = num;
+
         }
-         System.out.println("Your number has been entered successfully");
-         
-                    
-            
-        }
-        
-    }
-        public void sort (){
-            for(int i =0 ; i < statistics.length; i ++){
-                smaller = statistics[i];
-                for(int j =i ; j < statistics.length; j ++){
-                    if (statistics [j] < smaller){
-                        smaller = statistics[j];
-                    }
-                   
+        // System.out.println(Arrays.toString(userNumData));
+
+        for (int i = 0; i < arrayLength; i++) {
+            for (int j = i + 1; j < arrayLength; j++) {
+                if (userNumData[i] > userNumData[j]) {
+                    final int temp = userNumData[i];
+                    userNumData[i] = userNumData[j];
+                    userNumData[j] = temp;
                 }
-                statistics[i]= smaller;
-                
             }
-    
+            // System.out.println(Arrays.toString(userNumData));
+        }
+        // System.out.println(Arrays.toString(userNumData));
+
+    }
+
+    public double Mean() {
+        double sum = 0;
+        for (int i = 0; i < arrayLength; i++) {
+            sum += userNumData[i];
+        }
+        return sum / arrayLength;
+    }
+
+    public double Median() {
+        final int middleNum = arrayLength / 2;
+
+        if ((arrayLength) % 2 == 1) {
+            return userNumData[middleNum];
+        } else {
+            return userNumData[middleNum - 1] + userNumData[middleNum] / 2.0;
+        }
+
+    }
+
+    public int Mode() {
+
+        int Value = 0;
+        int vCount = 0;
+
+        for (final int element2 : userNumData) {
+            int count = 0;
+            for (final int element3 : userNumData) {
+                if (element3 == element2) {
+                    ++count;
+                }
+            }
+            if (count > vCount) {
+                vCount = count;
+                Value = element2;
+            }
+        }
+        return Value;
+
+    }
+
+    public void Print() {
+        System.out.println();
+        System.out.println("The number of entries = " + arrayLength);
+        System.out.println("The mean of the numbers = " + Mean());
+        System.out.println("The Median of the numbers = " + Median());
+        System.out.println("The Mode of the numbers = " + Mode());
+    }
+
 }
