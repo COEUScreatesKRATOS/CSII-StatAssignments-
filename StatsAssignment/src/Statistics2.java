@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -15,12 +16,10 @@ public class Statistics2 {
      * @param args
      */
 
-    private int[] userNumData;
-    private int[] sorteduserNumData;
-    /** Number of Numbers */
-    private final int NON = userNumData.length;
+    private final int[] userNumData;
+    private final int arrayLength;
 
-    public void Statistics() {
+    public Statistics2() {
         System.out.println("Please enter your numbers (separtated by spaces) and then press enter:");
         // ask user for number using scanner
         // parse and populate
@@ -33,64 +32,74 @@ public class Statistics2 {
 
         userNumData = new int[userToken.length];
 
+        arrayLength = userNumData.length;
+
         for (int i = 0; i < userToken.length; i++) {
 
             final int num = Integer.parseInt(userToken[i]);
             userNumData[i] = num;
 
         }
+        System.out.println(Arrays.toString(userNumData));
+
+        for (int i = 0; i < arrayLength; i++) {
+            for (int j = i + 1; j < arrayLength; j++) {
+                if (userNumData[i] > userNumData[j]) {
+                    final int temp = userNumData[i];
+                    userNumData[i] = userNumData[j];
+                    userNumData[j] = temp;
+                }
+            }
+            System.out.println(Arrays.toString(userNumData));
+        }
+        System.out.println(Arrays.toString(userNumData));
 
     }
 
     public double Mean() {
-        for (int i = 0; i < non; i++) {
-            return ((i + i++) / non);
+        double sum = 0;
+        for (int i = 0; i < arrayLength; i++) {
+            sum += userNumData[i];
         }
+        return sum / arrayLength;
     }
 
     public double Median() {
-        for (final int element : userNumData) {
-            final int middleNum = non / 2;
+        final int middleNum = arrayLength / 2;
 
-            if ((non) % 2 == 1) {
-                return userNumData[middleNum];
-            } else {
-                return userNumData[middleNum - 1] + userNumData[middleNum] / 2;
-            }
+        if ((arrayLength) % 2 == 1) {
+            return userNumData[middleNum];
+        } else {
+            return userNumData[middleNum - 1] + userNumData[middleNum] / 2.0;
         }
 
     }
 
     public int Mode() {
-        for (final int element : userNumData) {
-            int Value;
-            int vCount;
 
-            for (final int element2 : userNumData) {
-                int count = 0;
-                for (final int element3 : userNumData) {
-                    if (element3 == element2) {
-                        ++count;
-                    }
-                }
-                if (count > vCount) {
-                    vCount = count;
-                    Value = element2;
+        int Value = 0;
+        int vCount = 0;
+
+        for (final int element2 : userNumData) {
+            int count = 0;
+            for (final int element3 : userNumData) {
+                if (element3 == element2) {
+                    ++count;
                 }
             }
-            return Value;
+            if (count > vCount) {
+                vCount = count;
+                Value = element2;
+            }
         }
+        return Value;
+
     }
 
     public void Print() {
         System.out.println("The mean of the numbers = " + Mean());
         System.out.println("The Median of the numbers = " + Median());
         System.out.println("The Mode of the numbers = " + Mode());
-    }
-
-    public static void main(final String[] args) {
-        // TODO Auto-generated method stub
-
     }
 
 }
